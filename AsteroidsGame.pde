@@ -1,6 +1,7 @@
 Spaceship bob = new Spaceship();
 Star [] nightSky = new Star[200];
 ArrayList <Asteroid> theList = new ArrayList <Asteroid>();
+ArrayList<Bullet> shots = new ArrayList<Bullet>();
 
 public void setup() 
 {
@@ -16,6 +17,17 @@ public void setup()
 public void draw() 
 {
   background(0);
+  for(int i = 0; i<shots.size();i++){
+    shots.get (i).move();
+    shots.get (i).show();
+    float d = dist(theList.get(i).myCenterX, theList.get(i).myCenterY, shots.get(i).myCenterX, shots.get(i).myCenterY);
+    if(d<50){
+      shots.remove(i);
+      theList.remove(i);
+      break;
+    }
+  }
+  
   Asteroid joe = new Asteroid();
   theList.add(joe);
   for (int y = 0; y < 10; y++)
@@ -34,6 +46,7 @@ public void draw()
     if (dist(theList.get(nI).myCenterX, theList.get(nI).myCenterY, bob.myCenterX, bob.myCenterY) < 20) 
     {
       theList.remove(nI);
+      break;
     }
   }
 
@@ -59,5 +72,7 @@ public void keyPressed()
   if (key == '4') {
     bob.hyperspace();
   }
+  if(key == '5')
+    shots.add(new Bullet(bob));
 }
 
